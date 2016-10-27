@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=320,maximum-scale=1.3,user-scalable=no">
+		<link rel="stylesheet" href="http://js.ddky.com/c/wap/css/cms/cms1.0.css" />
+		<link rel="stylesheet" href="swiper-3.3.1.min.css" />
+		<script src="jquery-1.11.3.min.js"></script>
+		<script src="swiper3.1.js"></script>
+		<style>
+			.box{
+				width:100%;height: 26px;overflow-x: auto;
+			}
+			.tab{
+				width: 1000px;height: 26px;
+			}
+			.tab li{
+				padding:0 10px;
+				float:left;
+			}
+			.tab .act{
+				color: red;border-bottom: 1px solid #f00;padding-bottom: 2px;
+			}
+			.flash{
+				min-height: 300px;width: 100%;
+			}
+			.flash div{
+				width: 100%;height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div style=""></div>
+		<div class="box">
+			<ul class="tab">
+				<li class="act" >第一个选项</li>
+				<li >第俩个选项</li>
+				<li >第三个选项</li>
+				<li >第四个选项</li>
+				<li >第五个选项</li>
+				<li>第六个选项</li>
+			</ul>
+		</div>
+		
+		<div class="swiper-container flash">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide blue-slide" style="background: blue;height: 500px;">11111111111 111111</div>
+				<div class="swiper-slide pink-slide" style="background: pink;height: 1000px;">222222222222 222222222</div>
+				<div class="swiper-slide orange-slide" style="background: orange;height: 1700px;">3333333333333 3 333</div>
+				
+				<div class="swiper-slide blue-slide" style="background: #C9C9CE;height: 3000px;">444444 444444</div>
+				<div class="swiper-slide pink-slide" style="background: palegreen;height: 800px;">5555555   555555555</div>
+				<div class="swiper-slide orange-slide" style="background: gold;height: 1800px;">66666666 6666666</div>
+			</div>
+		</div>
+		
+		<script>
+			var w=20;
+			var tab=document.querySelector('.tab');
+			var lists=tab.children;
+			for(var i=0;i<lists.length;i++){
+				w+=lists[i].offsetWidth;
+			}
+			tab.style.width=w+'px';
+			
+			var mySwiper = new Swiper('.swiper-container',{
+				onSlideChangeEnd: function(swiper){
+			      var actIndex=mySwiper.activeIndex;
+			      var single=$('.swiper-slide').eq(actIndex).height();
+			      $('.swiper-container').height(single);
+			      $('.tab li').eq(actIndex).addClass('act').siblings().removeClass('act');
+			    }
+			})
+			var single=$('.swiper-slide').eq(0).height();
+	      	$('.swiper-container').height(single);
+			
+			var halfClient=($(window).width())/2;
+			console.log(halfClient);
+			$('.tab li').click(function(){
+				$(this).addClass('act').siblings().removeClass('act');
+				var index=$(this).index();
+				mySwiper.slideTo(index, 1000, false);
+				var posL=$(this).position().left;
+				console.log(posL);
+				var halfSelf=this.offsetWidth/2;
+				if(posL < halfClient){
+					$('.box').animate({scrollLeft:0});
+				}else{
+					$('.box').animate({scrollLeft:posL+halfSelf-halfClient});
+				}
+			})
+			
+			
+		</script>
+	</body>
+</html>
